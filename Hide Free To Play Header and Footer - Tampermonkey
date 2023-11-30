@@ -1,0 +1,59 @@
+// ==UserScript==
+// @name         Hide Free To Play Header and Footer
+// @namespace    http://tampermonkey.net/
+// @version      1
+// @description  Disabling the divs responsible to display footer and header on Geoguesrr non-premium accounts
+// @author       R a c u
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=geoguessr.com
+// @match        https://www.geoguessr.com/*
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    // Function to delete all specific divs
+
+    function removeElements()
+    {
+
+        let ticketBarWrapper = document.querySelector('.version4_ticketBarWrapper__g0q43');
+        if (ticketBarWrapper)
+        {
+            ticketBarWrapper.remove();
+        }
+
+        let ticketBarViewMeta = document.querySelector('.ticket-bar-view_meta__yB_aQ');
+        if (ticketBarViewMeta)
+        {
+            ticketBarViewMeta.remove();
+        }
+
+        let ticketBarViewRoot = document.querySelector('.ticket-bar-view_root__RL30f');
+        if (ticketBarViewRoot)
+        {
+            ticketBarViewRoot.remove();
+        }
+
+        let adHorizontalAd = document.querySelector('.ad_horizontalAd__I56XL.ad_fixedHeight__pKDBR');
+        if (adHorizontalAd)
+        {
+            adHorizontalAd.remove();
+        }
+
+    }
+
+    // Mutation observer for checking added elements
+
+    const observer = new MutationObserver(function(mutationsList, observer) {
+        for (let mutation of mutationsList) {
+            removeElements(); // Check and remove matches when mutations are detected
+        }
+    });
+
+    // Start observing changes in the DOM tree
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // Calling the function
+    removeElements();
+})();
